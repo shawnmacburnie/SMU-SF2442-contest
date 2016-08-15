@@ -52,12 +52,9 @@ while (true) {
     // calculate new point closest to next checkpoint
     newPoint = pointOnCircle(CP,CP2,550);
     //  correction terms are myVx, and myVy
-    // TODO: angleBetweenCarAndCP * myCar.vx
-    //      This may or may not be needed and may or may not help.
-    //      Where when I have big angle I will have big correction,
-    //      and when I have small angle I have small correction.
     moveX = newPoint.x - myCar.vx;
-    moveY = newPoint.y - myCar.vy;
+    moveY = newPoint.y - myCar.vy ;
+
     diffx = CP.x-myCar.x;
     diffy = CP.y-myCar.y;
     myDistance = Math.sqrt( ( diffx ) * (diffx) + (diffy) * (diffy) );
@@ -78,9 +75,9 @@ while (true) {
     print(moveX + ' ' + moveY +  ' ' + thrust);
 }
 
-// function angleBetweenVectors(x1,y1,x2,y2) {
-//     lastVelocDot = x1 * x2  + y1 * y2
-//     return Math.acos(lastVelocDot /  ( Math.sqrt(x2*x2 + y2 * y2) * Math.sqrt(x1*x1 + y1*y1) ) )
+// function angleBetweenVectors(p1,p2) {
+//     lastVelocDot = p1.x * p2.x  + p1.y * p2.y
+//     return Math.acos(lastVelocDot /  ( Math.sqrt(p2.x*p2.x + p2.y * p2.y) * Math.sqrt(p1.x*p1.x + p1.y*p1.y) ) )
 // }
 
 // TODO: At final submission, remove this and put inline. Increasing preformance.
