@@ -52,6 +52,10 @@ while (true) {
     // calculate new point closest to next checkpoint
     newPoint = pointOnCircle(CP,CP2,550);
     //  correction terms are myVx, and myVy
+    // TODO: angleBetweenCarAndCP * myCar.vx
+    //      This may or may not be needed and may or may not help.
+    //      Where when I have big angle I will have big correction,
+    //      and when I have small angle I have small correction.
     moveX = newPoint.x - myCar.vx;
     moveY = newPoint.y - myCar.vy;
     diffx = CP.x-myCar.x;
