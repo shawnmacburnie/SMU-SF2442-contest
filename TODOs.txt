@@ -1,0 +1,20 @@
+[Complete]
+1. Calculate closest point on the edge of the next checkpoints radius
+   to the checkpoint after that. So that when I get this checkpoint I am as close as I need
+   to be to get to next checkpoint
+   http://math.stackexchange.com/questions/127613/closest-point-on-circle-edge-from-point-outside-inside-the-circle
+
+[complete]
+2. Add adjustment for current (x,y) movement. that is offset my current velocity vector such that
+   I am aim at the target, but with the same angle between my target vector and angle vector but
+   on the other side of the vector.
+   http://forum.unity3d.com/threads/opposite-velocity-vector-to-target-vector.378954/
+
+[complete]
+2. impliment a shoving technique
+
+
+
+
+angle between two vectors
+http://www.wikihow.com/Find-the-Angle-Between-Two-Vectors
