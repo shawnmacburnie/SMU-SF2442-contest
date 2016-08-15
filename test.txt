@@ -1,0 +1,12 @@
+How sharp to take a turn (max 600):
+    Score 44.06 @ 300
+    Score 44.33 @ 400
+    Score xx @ 450
+    Score 45.50 @ 500 (2nd place)
+    Score 45.82 @ 550 (1st place)
+    Score 44.27 @ 575 (1st place)
+    Score 43.91 @ 600 (2nd place) I miss a lot here, do not use.
+
+with/without Shoving Tactic (with 550 for sharp turn):
+    Score 45.35 with Shoving, with second place at 42
+    Score 44.95 without Shoving, with second place at 42
