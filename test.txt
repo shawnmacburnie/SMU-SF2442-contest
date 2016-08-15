@@ -1,3 +1,5 @@
+Last Tested Aug 15
+
 How sharp to take a turn (max 600):
     Score 44.06 @ 300
     Score 44.33 @ 400
