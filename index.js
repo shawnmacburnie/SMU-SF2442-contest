@@ -45,7 +45,7 @@ while (true) {
     CP = checkpoints[myNextCheckPointId];
     CP2 = checkpoints[(myNextCheckPointId + 1) % checkpointCount];
     // calculate new point closest to next checkpoint
-    newPoint = pointOnCircle(CP[0],CP[1],CP2[0],CP2[1],300);
+    newPoint = pointOnCircle(CP[0],CP[1],CP2[0],CP2[1],550);
     //  correction terms are myVx, and myVy
     moveX = newPoint[0] - myVx;
     moveY = newPoint[1] - myVy;
@@ -56,10 +56,6 @@ while (true) {
     } else {
         var thrust = '100';
     }
-    //Debugging
-    // printErr('Distance: ' + myDistance);
-    // printErr('VelocityX: ' + myVx);
-    // printErr('VelocityY: ' + myVy);
 
     //Shoving Tactic
     if(startCounter == 1 && playerCount == 2) {
