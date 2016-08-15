@@ -7,7 +7,10 @@ for (var i = 0; i < checkpointCount; i++) {
     var inputs = readline().split(' ');
     var checkpointX = parseInt(inputs[0]);
     var checkpointY = parseInt(inputs[1]);
-    checkpoints.push([checkpointX,checkpointY])
+    checkpoints.push({
+        x:checkpointX,
+        y:checkpointY
+    })
 }
 var lastCheckpointId = 1;
 var startCounter = 0;
@@ -45,12 +48,13 @@ while (true) {
     CP = checkpoints[myNextCheckPointId];
     CP2 = checkpoints[(myNextCheckPointId + 1) % checkpointCount];
     // calculate new point closest to next checkpoint
-    newPoint = pointOnCircle(CP[0],CP[1],CP2[0],CP2[1],550);
+    newPoint = pointOnCircle(CP,CP2,550);
     //  correction terms are myVx, and myVy
-    moveX = newPoint[0] - myVx;
-    moveY = newPoint[1] - myVy;
-
-    myDistance = Math.sqrt( ( CP[0]-myX ) * (CP[0]-myX) + (CP[1]-myY) * (CP[1]-myY) );
+    moveX = newPoint.x - myVx;
+    moveY = newPoint.y - myVy;
+    diffx = CP.x-myX;
+    diffy = CP.y-myY;
+    myDistance = Math.sqrt( ( diffx ) * (diffx) + (diffy) * (diffy) );
     if (CPCounter == 4 && myDistance > 5000) {
         var thrust = 'BOOST';
     } else {
@@ -74,8 +78,13 @@ while (true) {
 //     lastVelocDot = x1 * x2  + y1 * y2
 //     return Math.acos(lastVelocDot /  ( Math.sqrt(x2*x2 + y2 * y2) * Math.sqrt(x1*x1 + y1*y1) ) )
 // }
-function pointOnCircle(x1,y1,x2,y2,r) {
-    X = x1 + r*((x2-x1) / (Math.sqrt( (x2-x1)*(x2-x1) + (y2-y1)*(y2-y1) )))
-    Y =  y1 + r*((y2-y1) / (Math.sqrt( (x2-x1)*(x2-x1) + (y2-y1)*(y2-y1) )))
-    return [parseInt(X),parseInt(Y)]
+function pointOnCircle(p1,p2,r) {
+    diffx = p2.x - p1.x;
+    diffy = p2.y - p1.y;
+    X = p1.x + r*((diffx) / (Math.sqrt( (diffx)*(diffx) + (diffy)*(diffy) )))
+    Y =  p1.y + r*((diffy) / (Math.sqrt( (diffx)*(diffx) + (diffy)*(diffy) )))
+    return {
+        x:parseInt(X),
+        y:parseInt(Y)
+    };
 }
