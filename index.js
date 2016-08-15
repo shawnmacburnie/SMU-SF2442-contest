@@ -12,9 +12,10 @@ for (var i = 0; i < checkpointCount; i++) {
         y:checkpointY
     })
 }
-var lastCheckpointId = 1;
+var myCar = {
+    lastCheckpointId: 1
+};
 var startCounter = 0;
-var firstCP = true;
 var CPCounter = 0;
 while (true) {
     startCounter += 1;
@@ -27,33 +28,34 @@ while (true) {
         var vy = parseInt(inputs[3]);
         var nextCheckPointId = parseInt(inputs[4]);
         if (i === 0) { // First input is always my racer
-            var myX = x;
-            var myVx = vx;
-            var myY = y;
-            var myVy = vy;
-            var myNextCheckPointId = nextCheckPointId; //current checkpoint id
-            if (myNextCheckPointId != lastCheckpointId) {
+            myCar.x = x;
+            myCar.y = y;
+            myCar.vx = vx;
+            myCar.vy = vy;
+            myCar.nextCheckPointId = nextCheckPointId;
+            if (myCar.nextCheckPointId != myCar.lastCheckpointId) {
                 CPCounter = 0;
-                firstCP = false;
-                var lastCheckpointId = myNextCheckPointId;
+                myCar.lastCheckpointId = myCar.nextCheckPointId;
             }
         } else if (playerCount == 2) {
-            enemyX = x;
-            enemyY = y;
-            enemyVx = vx;
-            enemyVy = vy;
+            var enemyCar = {
+                x: x,
+                y: y,
+                vx:vx,
+                vy:vy
+            };
         }
     }
 
-    CP = checkpoints[myNextCheckPointId];
-    CP2 = checkpoints[(myNextCheckPointId + 1) % checkpointCount];
+    CP = checkpoints[myCar.nextCheckPointId];
+    CP2 = checkpoints[(myCar.nextCheckPointId + 1) % checkpointCount];
     // calculate new point closest to next checkpoint
     newPoint = pointOnCircle(CP,CP2,550);
     //  correction terms are myVx, and myVy
-    moveX = newPoint.x - myVx;
-    moveY = newPoint.y - myVy;
-    diffx = CP.x-myX;
-    diffy = CP.y-myY;
+    moveX = newPoint.x - myCar.vx;
+    moveY = newPoint.y - myCar.vy;
+    diffx = CP.x-myCar.x;
+    diffy = CP.y-myCar.y;
     myDistance = Math.sqrt( ( diffx ) * (diffx) + (diffy) * (diffy) );
     if (CPCounter == 4 && myDistance > 5000) {
         var thrust = 'BOOST';
@@ -63,11 +65,9 @@ while (true) {
 
     //Shoving Tactic
     if(startCounter == 1 && playerCount == 2) {
-        moveX = enemyX;
-        moveY = enemyY;
+        moveX = enemyCar.x;
+        moveY = enemyCar.y;
         thrust = 'BOOST';
-        // printErr('EnemyVx: ' + enemyVx)
-        // printErr('EnemyVy: ' + enemyVy)
     } else if (startCounter == 2) {
         thrust = 'BOOST';
     }
@@ -78,6 +78,8 @@ while (true) {
 //     lastVelocDot = x1 * x2  + y1 * y2
 //     return Math.acos(lastVelocDot /  ( Math.sqrt(x2*x2 + y2 * y2) * Math.sqrt(x1*x1 + y1*y1) ) )
 // }
+
+// TODO: At final submission, remove this and put inline. Increasing preformance.
 function pointOnCircle(p1,p2,r) {
     diffx = p2.x - p1.x;
     diffy = p2.y - p1.y;
