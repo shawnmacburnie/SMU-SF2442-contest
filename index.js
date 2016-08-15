@@ -50,7 +50,7 @@ while (true) {
     CP = checkpoints[myCar.nextCheckPointId];
     CP2 = checkpoints[(myCar.nextCheckPointId + 1) % checkpointCount];
     // calculate new point closest to next checkpoint
-    newPoint = pointOnCircle(CP,CP2,550);
+    newPoint = pointOnCircle(CP,CP2,550); // 550 is how far from center of CP
     //  correction terms are myVx, and myVy
     moveX = newPoint.x - myCar.vx;
     moveY = newPoint.y - myCar.vy ;
@@ -58,7 +58,7 @@ while (true) {
     diffx = CP.x-myCar.x;
     diffy = CP.y-myCar.y;
     myDistance = Math.sqrt( ( diffx ) * (diffx) + (diffy) * (diffy) );
-    if (CPCounter == 4 && myDistance > 5000) {
+    if (CPCounter == 4 && myDistance > 5000) { // try tweaking 5000 a bit, maybe something smaller
         var thrust = 'BOOST';
     } else {
         var thrust = '100';
