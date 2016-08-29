@@ -11,17 +11,21 @@ for (var i = 0; i < checkpointCount; i++) {
 }
 while (true) {
 
-    for (var i = 0; i < 2; i++) {
+    for (var i = 0; i < playerCount; i++) {
         var inputs = readline().split(' ');
         var x = parseInt(inputs[0]);
         var y = parseInt(inputs[1]);
         var vx = parseInt(inputs[2]);
         var vy = parseInt(inputs[3]);
         var nextCheckPointId = parseInt(inputs[4]);
-        if (i === 1) { // First input is always my racer
-            targetX = x;
-            targetY = y;
+        if (i === 0) {
+            myVx = 3*vx;
+            myVy = 3*vy;
+        }else if (i === 1) {
+            targetX = x - myVx;
+            targetY = y - myVy;
         }
+
     }
 
     print(targetX + ' ' + targetY +  ' ' + '100');
