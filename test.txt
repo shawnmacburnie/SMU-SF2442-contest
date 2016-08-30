@@ -12,3 +12,11 @@ How sharp to take a turn (max 600):
 with/without Shoving Tactic (with 550 for sharp turn):
     Score 45.35 with Shoving, with second place at 42
     Score 44.95 without Shoving, with second place at 42
+
+
+
+test aug 29
+
+with no extra velocity adjustment: 46.47 1st place
+with all velocity adjustment: 43.70 1st place
+velocity after 2 turn adjustment: 42.10 second place

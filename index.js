@@ -50,8 +50,14 @@ while (true) {
     CP = checkpoints[myCar.nextCheckPointId];
     CP2 = checkpoints[(myCar.nextCheckPointId + 1) % checkpointCount];
     // calculate new point closest to next checkpoint
-    newPoint = pointOnCircle(CP,CP2,550); // 550 is how far from center of CP
-
+    // newPoint = pointOnCircle(CP,CP2,550); // 550 is how far from center of CP
+    r = 550;
+    pointOnCircleDiffx = CP2.x - CP.x;
+    pointOnCircleDiffy = CP2.y - CP.y;
+    newPoint = {
+        x: parseInt(CP.x + r*((pointOnCircleDiffx) / (Math.sqrt( (pointOnCircleDiffx)*(pointOnCircleDiffx) + (pointOnCircleDiffy)*(pointOnCircleDiffy) ))) ),
+        y: parseInt(CP.y + r*((pointOnCircleDiffy) / (Math.sqrt( (pointOnCircleDiffx)*(pointOnCircleDiffx) + (pointOnCircleDiffy)*(pointOnCircleDiffy) ))) )
+    };
 
     diffx = newPoint.x-myCar.x;
     diffy = newPoint.y-myCar.y;
@@ -63,9 +69,11 @@ while (true) {
     // 2000 = 2
     // 3000 = 4
     // >=4000 = 5
-    velocityOffset = myDistance / 1000;
-    printErr(velocityOffset)
-    if (velocityOffset > 5) velocityOffset = 5;
+    velocityOffset = 1;
+    // if (CPCounter >= 2) { // this may not help anything.
+    //     velocityOffset = myDistance / 1000;
+    //     if (velocityOffset > 5) velocityOffset = 5;
+    // }
     myCar.vx *= velocityOffset;
     myCar.vy *= velocityOffset;
     // try tweaking 5000 a bit, maybe something smaller
@@ -87,21 +95,4 @@ while (true) {
     //     thrust = 'BOOST';
     // }
     print(moveX + ' ' + moveY +  ' ' + thrust);
-}
-
-// function angleBetweenVectors(p1,p2) {
-//     lastVelocDot = p1.x * p2.x  + p1.y * p2.y
-//     return Math.acos(lastVelocDot /  ( Math.sqrt(p2.x*p2.x + p2.y * p2.y) * Math.sqrt(p1.x*p1.x + p1.y*p1.y) ) )
-// }
-
-// TODO: At final submission, remove this and put inline. Increasing preformance.
-function pointOnCircle(p1,p2,r) {
-    diffx = p2.x - p1.x;
-    diffy = p2.y - p1.y;
-    X = p1.x + r*((diffx) / (Math.sqrt( (diffx)*(diffx) + (diffy)*(diffy) )))
-    Y =  p1.y + r*((diffy) / (Math.sqrt( (diffx)*(diffx) + (diffy)*(diffy) )))
-    return {
-        x:parseInt(X),
-        y:parseInt(Y)
-    };
 }
