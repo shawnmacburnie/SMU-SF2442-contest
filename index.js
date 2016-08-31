@@ -7,14 +7,10 @@ for (var i = 0; i < checkpointCount; i++) {
     var inputs = readline().split(' ');
     var checkpointX = parseInt(inputs[0]);
     var checkpointY = parseInt(inputs[1]);
-    checkpoints.push({
-        x:checkpointX,
-        y:checkpointY
-    })
+    checkpoints.push([checkpointX,checkpointY])
 }
-var myCar = {
-    lastCheckpointId: 1
-};
+
+var lastCheckpointId = 1;
 var startCounter = 0;
 var CPCounter = 0;
 while (true) {
@@ -27,42 +23,40 @@ while (true) {
         var vx = parseInt(inputs[2]);
         var vy = parseInt(inputs[3]);
         var nextCheckPointId = parseInt(inputs[4]);
+
         if (i === 0) { // First input is always my racer
-            myCar.x = x;
-            myCar.y = y;
-            myCar.vx = vx;
-            myCar.vy = vy;
-            myCar.nextCheckPointId = nextCheckPointId;
-            if (myCar.nextCheckPointId != myCar.lastCheckpointId) {
+            myCarX = x;
+            myCarY = y;
+            myCarVx = vx;
+            myCarVy = vy;
+            myCarNextCheckPointId = nextCheckPointId;
+            if (nextCheckPointId != lastCheckpointId) {
                 CPCounter = 0;
-                myCar.lastCheckpointId = myCar.nextCheckPointId;
+                lastCheckpointId = nextCheckPointId;
             }
-        } else if (playerCount == 2) {
-            var enemyCar = {
-                x: x,
-                y: y,
-                vx:vx,
-                vy:vy
-            };
         }
     }
 
-    CP = checkpoints[myCar.nextCheckPointId];
-    CP2 = checkpoints[(myCar.nextCheckPointId + 1) % checkpointCount];
+    CP = checkpoints[myCarNextCheckPointId];
+    CP2 = checkpoints[(myCarNextCheckPointId + 1) % checkpointCount];
     // calculate new point closest to next checkpoint
     // newPoint = pointOnCircle(CP,CP2,550); // 550 is how far from center of CP
     r = 550;
-    pointOnCircleDiffx = CP2.x - CP.x;
-    pointOnCircleDiffy = CP2.y - CP.y;
-    newPoint = {
-        x: parseInt(CP.x + r*((pointOnCircleDiffx) / (Math.sqrt( (pointOnCircleDiffx)*(pointOnCircleDiffx) + (pointOnCircleDiffy)*(pointOnCircleDiffy) ))) ),
-        y: parseInt(CP.y + r*((pointOnCircleDiffy) / (Math.sqrt( (pointOnCircleDiffx)*(pointOnCircleDiffx) + (pointOnCircleDiffy)*(pointOnCircleDiffy) ))) )
-    };
+    pointOnCircleDiffx = CP2[0] - CP[0];
+    pointOnCircleDiffy = CP2[1] - CP[1];
+    newPoint = [
+        parseInt(CP[0] + r*((pointOnCircleDiffx) / (Math.sqrt( (pointOnCircleDiffx)*(pointOnCircleDiffx) + (pointOnCircleDiffy)*(pointOnCircleDiffy) ))) ),
+        parseInt(CP[1] + r*((pointOnCircleDiffy) / (Math.sqrt( (pointOnCircleDiffx)*(pointOnCircleDiffx) + (pointOnCircleDiffy)*(pointOnCircleDiffy) ))) )
+    ];
 
-    diffx = newPoint.x-myCar.x;
-    diffy = newPoint.y-myCar.y;
+    diffx = newPoint[0] - myCarX;
+    diffy = newPoint[1] - myCarY;
     // distance from current position to CP position
     myDistance = Math.sqrt( ( diffx ) * (diffx) + (diffy) * (diffy) );
+
+    if (myDistance > 3000) {
+        newPoint = CP;
+    }
 
     // Calculate a number between 0-5, where it will be the offset
     // 1000 = 1
@@ -71,25 +65,29 @@ while (true) {
     // >=4000 = 5
     velocityOffset = 1;
     // if (CPCounter >= 2) { // this may not help anything.
-    //     velocityOffset = myDistance / 1000;
-    //     if (velocityOffset > 5) velocityOffset = 5;
+        velocityOffset = myDistance / 1000;
+        if (velocityOffset > 5) velocityOffset = 5;
     // }
-    myCar.vx *= velocityOffset;
-    myCar.vy *= velocityOffset;
+    myCarVx *= velocityOffset;
+    myCarVy *= velocityOffset;
     // try tweaking 5000 a bit, maybe something smaller
     if (CPCounter == 2 && myDistance > 3000) {
         var thrust = 'BOOST';
     } else {
         var thrust = '100';
     }
-
-    moveX = parseInt(newPoint.x - myCar.vx);
-    moveY = parseInt(newPoint.y - myCar.vy);
+    if( myDistance > 1000 ) {
+        moveX = parseInt(newPoint[0] - myCarVx);
+        moveY = parseInt(newPoint[1] - myCarVy);
+    } else {
+        moveX = parseInt(newPoint[0]);
+        moveY = parseInt(newPoint[1]);
+    }
 
     //Shoving Tactic
     // if(startCounter == 1 && playerCount == 2) {
-    //     moveX = enemyCar.x;
-    //     moveY = enemyCar.y;
+    //     moveX = enemyCarX;
+    //     moveY = enemyCarY;
     //     thrust = 'BOOST';
     // } else if (startCounter == 2) {
     //     thrust = 'BOOST';
